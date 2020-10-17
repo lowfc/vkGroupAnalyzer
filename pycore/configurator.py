@@ -3,11 +3,11 @@ from lowfchtml import Html
 from os.path import exists
 from vkparser import VKParser
 from time import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 def pseudo_parser():
     pars = VKParser()
-    pars.get_group_users('akmid000')
+    pars.get_group_users('lowfc_beatz')
     pars.complete_friendship()
     nodes = pars.get_users()
     weights = pars.get_friendship()
