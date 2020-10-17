@@ -3,11 +3,10 @@ from lowfchtml import Html
 from os.path import exists
 from vkparser import VKParser
 from time import time
-#import matplotlib.pyplot as plt
 
 def pseudo_parser():
     pars = VKParser()
-    pars.get_group_users('lowfc_beatz')
+    pars.get_group_users('akmid000')
     pars.complete_friendship()
     nodes = pars.get_users()
     weights = pars.get_friendship()
@@ -65,8 +64,6 @@ class Configurator:
                 return .5
 
     def create_html (self): # Создает HTML документ с помощью класса Html
-        nx.draw(self.graph)
-        plt.show()
         self.G = Html(self.screen_scale)
         pos = nx.spring_layout(self.graph)
         for i in self.nodes:
@@ -86,5 +83,5 @@ if __name__ == '__main__':
     start = time()
     con = Configurator()
     con.create_html()
-    print('total time execution:',time() - start)
+    print('Потрачено на исполнение: ',time() - start)
 
