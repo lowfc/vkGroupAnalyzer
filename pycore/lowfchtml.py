@@ -26,7 +26,7 @@ class Html:
         <head>
             <meta charset="unicode" />
             <title>Group Social Graph</title>
-            <link rel="shortcut icon" href="./pics/logo.png" type="image/x-icon">
+            <link rel="shortcut icon" href="https://sun9-15.userapi.com/UuR_YnwuAOxNVOcJT1MpzfZykJKJv1HZY4-52w/7DVRthdox9w.jpg" type="image/x-icon">
         </head>
 
         <style>
@@ -83,7 +83,7 @@ class Html:
             }
             }
         </script>
-        ''' + '<body>\n' + self.body + '''<body><a href="https://vk.com/lowfc" target="new"><img src="../pics/programmer.png"
+        ''' + '<body>\n' + self.body + '''<body><a href="https://vk.com/lowfc" target="new"><img src="https://sun9-70.userapi.com/FmKCdf9EOYGn4yW_rHy5de0P-JgKTJob7l5PvQ/ItoR2Azldsg.jpg"
         class="node" style = "left: 10px; top: 10px;" title="Programmed and designed by lowfc"></a><p class="info">Отрисовано<br>Людей: {peoples}<br>Связей: {friendships}</body>\n'''.format(peoples = self.edges, friendships = self.weights)
         self.__create_file()
     def add_script(self, line): # use for add line to script part (recommend for one-line add)

@@ -13,8 +13,9 @@ class VKParser:
     def get_group_users(self, groupid): # First runable method
         try:
             api_ans = self.vk_api.groups.getMembers(group_id=groupid, fields = ('is_private','photo_100'), v=5.124)
-            self.users = api_ans.get('items')
             self.users_count = api_ans.get('count')
+            self.users_count = self.users_count if self.users_count<=1000 else 1000
+            self.users = api_ans.get('items')
         except:
             print('Ошибка API: группа не существует, или запретила доступ к подписчикам')
             input()
@@ -35,9 +36,11 @@ class VKParser:
         end_users = [] # объявляем новый  временный массив во избежание потери данных при изменении self.users
         index_id = []
         counter = 0
+        average_exe_time = 0
         for i in self.users:
             k = i.get('id')
             has_friend = False
+            cur_time = time()
             if i.get('is_closed')==False:
                 for j in self.__get_friends__(k): # перебираем друзей человека под id i 
                     p = j.get('id')
@@ -53,8 +56,10 @@ class VKParser:
                 end_users.append(i)
                 index_id.append(k)
             counter+=1
+            average_exe_time += time() - cur_time
             if counter % 10 == 0:
                 system('cls')
-                print('Обработано {} участников (из {}).'.format(counter, self.users_count))
+                print('Обработано {}% участников (из {}). Осталось работать {} секунд'.format(int(counter / self.users_count * 100), self.users_count,
+                int((average_exe_time / counter) * (self.users_count - counter))) )
 
         self.users = end_users
