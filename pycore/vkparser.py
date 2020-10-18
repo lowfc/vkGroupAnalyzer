@@ -1,5 +1,6 @@
 import vk
 from time import sleep, time
+from os import system
 
 
 class VKParser:
@@ -33,10 +34,8 @@ class VKParser:
     def complete_friendship(self): # Вызывается с заполненным списком друзей (т.е. после get_group_users)
         end_users = [] # объявляем новый  временный массив во избежание потери данных при изменении self.users
         index_id = []
-        average_exe_time = []
         counter = 0
         for i in self.users:
-            cur_time = time()
             k = i.get('id')
             has_friend = False
             if i.get('is_closed')==False:
@@ -53,15 +52,9 @@ class VKParser:
             if has_friend and k not in index_id: # Заполнение конечных массивов
                 end_users.append(i)
                 index_id.append(k)
-            if counter<=10:
-                average_exe_time.append(time() - cur_time)
-                if counter == 5:
-                    print('Расчет оставшегося времени обработки...')
-                elif counter == 10:
-                    average_exe_time = sum(average_exe_time)/10    
-            else:
-                if counter % 30 == 0:
-                    print('Обработано {} из {} подписчиков. Примерное время ожидания: {} секунд.'.format(counter,self.users_count,
-                    round(average_exe_time * (self.users_count - counter))))
             counter+=1
+            if counter % 10 == 0:
+                system('cls')
+                print('Обработано {} участников (из {}).'.format(counter, self.users_count))
+
         self.users = end_users
