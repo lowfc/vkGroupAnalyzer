@@ -6,7 +6,7 @@ from time import time
 
 def user_input():
     pars = VKParser()
-    pars.get_group_users(input('Введите id группы (не реккомендуются группы, где больше 5000 подписчиков): '))
+    pars.get_group_users(input('Введите id группы (не рекомендуются группы, где больше 5000 подписчиков): '))
     pars.complete_friendship()
     nodes = pars.get_users()
     weights = pars.get_friendship()
