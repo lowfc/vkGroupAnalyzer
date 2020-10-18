@@ -4,9 +4,9 @@ from os.path import exists
 from vkparser import VKParser
 from time import time
 
-def pseudo_parser():
+def user_input():
     pars = VKParser()
-    pars.get_group_users('akmid000')
+    pars.get_group_users(input('Введите id группы (не реккомендуются группы, где больше 5000 подписчиков): '))
     pars.complete_friendship()
     nodes = pars.get_users()
     weights = pars.get_friendship()
@@ -15,7 +15,7 @@ def pseudo_parser():
 
 class Configurator:
     def __init__(self):
-        self.nodes, self.weights = pseudo_parser() #nodes - кортеж id людей, weights - словарь дружеских связей (подразумивается отсутствие дублей)
+        self.nodes, self.weights = user_input() #nodes - кортеж id людей, weights - словарь дружеских связей (подразумивается отсутствие дублей)
         if len(self.nodes)<=10:
             self.screen_scale = 2000 # коэффициент масштабирования canvas
         elif len(self.nodes)<=30:
@@ -83,5 +83,6 @@ if __name__ == '__main__':
     start = time()
     con = Configurator()
     con.create_html()
-    print('Потрачено на исполнение: ',time() - start)
+    print('Потрачено на исполнение: ', int(time() - start),'секунд.')
+    input()
 

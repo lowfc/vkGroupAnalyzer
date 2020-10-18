@@ -1,21 +1,6 @@
 import vk
 from time import sleep, time
-from threading import Thread
 
-def remaining_time_counter(self):
-    done = False
-    average_user_time = 0
-    while self.users_count - self.counter>0:
-        if not done:
-            if len(self.average_exe_time)<10:
-                print('Расчитываю время')
-            else:
-                average_user_time = sum(self.average_exe_time) / 10
-                done = True
-        else:
-            print('Обработано {} людей из {}, осталось секунд: {}'.format(str(self.counter), str(self.users_count),
-            str((self.users_count - self.counter) * average_user_time)))
-        sleep(3)
 
 class VKParser:
     def __init__(self):
@@ -24,15 +9,14 @@ class VKParser:
         self.friendship = []
         self.vk_api = vk.API(vk.Session(access_token=self.token))
         self.users_count = 0
-        self.counter = 0
-        self.average_exe_time = []
     def get_group_users(self, groupid): # First runable method
         try:
             api_ans = self.vk_api.groups.getMembers(group_id=groupid, fields = ('is_private','photo_100'), v=5.124)
             self.users = api_ans.get('items')
             self.users_count = api_ans.get('count')
         except:
-            print('Ошибка API: группа запретила доступ к ее подписчикам')
+            print('Ошибка API: группа не существует, или запретила доступ к подписчикам')
+            input()
             exit()
     def get_users(self):
         return self.users
@@ -49,8 +33,8 @@ class VKParser:
     def complete_friendship(self): # Вызывается с заполненным списком друзей (т.е. после get_group_users)
         end_users = [] # объявляем новый  временный массив во избежание потери данных при изменении self.users
         index_id = []
-        thread1 = Thread(target=remaining_time_counter, args=self)
-        thread1.start()
+        average_exe_time = []
+        counter = 0
         for i in self.users:
             cur_time = time()
             k = i.get('id')
@@ -69,8 +53,15 @@ class VKParser:
             if has_friend and k not in index_id: # Заполнение конечных массивов
                 end_users.append(i)
                 index_id.append(k)
-            if self.counter<5:
-                self.average_exe_time.append(cur_time - time())
-            self.counter+=1
+            if counter<=10:
+                average_exe_time.append(time() - cur_time)
+                if counter == 5:
+                    print('Расчет оставшегося времени обработки...')
+                elif counter == 10:
+                    average_exe_time = sum(average_exe_time)/10    
+            else:
+                if counter % 30 == 0:
+                    print('Обработано {} из {} подписчиков. Примерное время ожидания: {} секунд.'.format(counter,self.users_count,
+                    round(average_exe_time * (self.users_count - counter))))
+            counter+=1
         self.users = end_users
-        thread1.join()
