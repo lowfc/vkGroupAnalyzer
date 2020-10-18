@@ -69,10 +69,6 @@ class Html:
             }
             </style>
     '''
-    def sub_write_to_file(self, target): # use for write in end file by force (not recommend)
-        html_generator  = open(self.filename, 'a')
-        html_generator.write(target)
-        html_generator.close()
     def __create_file(self):
         html_generator  = open(self.filename,'w',encoding='utf-8')
         html_generator.write(self.html)
@@ -87,7 +83,7 @@ class Html:
             }
             }
         </script>
-        ''' + '<body>\n' + self.body + '''<body><a href="https://vk.com/lowfc" target="new"><img src="gitvkparser/vkGroupAnalyzer/pics/programmer.png"
+        ''' + '<body>\n' + self.body + '''<body><a href="https://vk.com/lowfc" target="new"><img src="../pics/programmer.png"
         class="node" style = "left: 10px; top: 10px;" title="Programmed and designed by lowfc"></a><p class="info">Отрисовано<br>Людей: {peoples}<br>Связей: {friendships}</body>\n'''.format(peoples = self.edges, friendships = self.weights)
         self.__create_file()
     def add_script(self, line): # use for add line to script part (recommend for one-line add)
