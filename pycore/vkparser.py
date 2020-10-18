@@ -5,7 +5,7 @@ from os import system
 
 class VKParser:
     def __init__(self):
-        self.token = '4d68247a4d68247a4d68247a9d4d1be5bf44d684d68247a1239389d4bbd08c2e6085e43'
+        self.token = '' # ВАШ API TOKEN
         self.users = []
         self.friendship = []
         self.vk_api = vk.API(vk.Session(access_token=self.token))
